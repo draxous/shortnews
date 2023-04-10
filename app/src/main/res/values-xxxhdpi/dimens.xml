@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 1440* 2880 -->
+    <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_medium_large">15sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="imageHeight">256dp</dimen>
+    <dimen name="margin_bottom_viewpager_indicator">80dp</dimen>
+
+    <!-- tabs -->
+
+    <dimen name="imageHeightTabs">500dp</dimen>
+    <dimen name="font_medium_tab">20sp</dimen>
+    <dimen name="font_medium_large_tab">24sp</dimen>
+    <dimen name="font_small_tab">18sp</dimen>
+</resources>

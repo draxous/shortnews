@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="viewModel"
+                type="com.xzentry.shorten.ui.search.SearchNewsViewModel" />
+    </data>
+
+    <com.xzentry.shorten.utils.SwipePanel
+            android:id="@+id/swipePanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mediumGray"
+            app:isLeftCenter="false"
+            app:leftDrawable="@drawable/ic_back_white"
+            app:leftEdgeSize="100dp"
+            app:leftSwipeColor="@color/colorAccent"
+            tools:context=".LayoutSwipePanelActivity">
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorCardBackground">
+
+            <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin"
+                        app:theme="@style/ToolbarColoredBackArrow"
+                        app:title="@string/search_news"
+                        app:titleTextColor="@color/white" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                            android:id="@+id/search_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                                android:id="@+id/txt_search"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_large"
+                                android:layout_weight="0.9"
+                                android:background="@drawable/round_border_gray"
+                                android:gravity="left"
+                                android:hint="@string/search"
+                                android:imeOptions="actionSearch"
+                                android:inputType="text"
+                                android:padding="@dimen/padding_large"
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@android:color/white">
+
+                            <requestFocus />
+                        </EditText>
+
+
+                        <ImageView
+                                android:id="@+id/btn_search"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:gravity="right"
+                                android:padding="@dimen/padding_medium"
+                                app:srcCompat="@drawable/ic_search"
+                                app:tint="@color/white" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rec_search_results"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/search_header" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                        android:id="@+id/no_results"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/padding_medium"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_no_search_results" />
+
+                <include
+                        android:id="@+id/loader_layout"
+                        layout="@layout/view_loader"
+                        android:visibility="gone" />
+            </FrameLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.xzentry.shorten.utils.SwipePanel>
+</layout>

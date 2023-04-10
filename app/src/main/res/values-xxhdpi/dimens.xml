@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--1080 * 2160 && xiomi redmi-->
+    <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_medium_large">15sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="imageHeight">256dp</dimen>
+    <dimen name="margin_bottom_viewpager_indicator">80dp</dimen>
+
+</resources>

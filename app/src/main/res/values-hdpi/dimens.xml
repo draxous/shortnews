@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 480*800 -->
+    <dimen name="font_medium">10sp</dimen>
+    <dimen name="font_medium_large">11sp</dimen>
+    <dimen name="font_small">8sp</dimen>
+    <dimen name="imageHeight">180dp</dimen>
+    <dimen name="margin_bottom_viewpager_indicator">40dp</dimen>
+
+</resources>

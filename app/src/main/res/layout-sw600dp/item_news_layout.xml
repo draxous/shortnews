@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="model"
+                type="com.xzentry.shorten.data.remote.model.Post" />
+
+        <variable
+                name="position"
+                type="Integer" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/news_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/colorCardBackground"
+            app:cardCornerRadius="@dimen/corner">
+        <!--app:cardBackgroundColor="@color/colorCardBackground"  below is required due to sharing news -->
+        <LinearLayout
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/colorCardBackground"
+                android:orientation="vertical">
+
+            <!--news image layout-->
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/img_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/imageHeight"
+                        android:scaleType="fitXY"></ImageView>
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            android:id="@+id/youtube_player_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/imageHeightTabs"
+                            app:autoPlay="false"
+                            app:showFullScreenButton="true" />
+
+                    <ImageView
+                            android:id="@+id/img_news"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/imageHeightTabs"
+                            android:contentDescription="@string/image" />
+                </FrameLayout>
+
+                <ImageView
+                        android:id="@+id/btn_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:contentDescription="@string/share"
+                        android:padding="@dimen/padding_medium"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:src="@drawable/ic_share"
+                        android:background="@drawable/round_border_transparent_gray"
+                        android:tag="share" />
+
+            </FrameLayout>
+
+            <!--news details layout-->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/txt_news_title"
+                        style="@style/TextStyle.Card.TabHeader"
+                        android:maxLines="3"
+                        android:text="@{model.title}"
+                        tools:text="Title of the news" />
+
+                <com.wordpress.priyankvex.smarttextview.SmartTextView
+                        android:id="@+id/txt_news"
+                        style="@style/TextStyle.Card.TabContent"
+                        android:alpha="0.7"
+                        android:text="@{model.content}"
+                        tools:text="Content of the news" />
+                <!--content publisher info layout-->
+
+                <TextView
+                        android:id="@+id/timestamp"
+                        style="@style/TextStyle.Card.TabOther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/marginStart"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:dateTimeText="@{model.updatedAt}"
+                        tools:hint="@string/timestamp" />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/moreAt"
+                            style="@style/TextStyle.Card.TabOther"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/marginStart"
+                            app:sourcePrefixLabel="@{model.category}"
+                            tools:text="@string/moreAt" />
+
+                    <TextView
+                            android:id="@+id/txt_source"
+                            style="@style/TextStyle.Card.TabOther"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:text="@{model.source.source}"
+                            android:textColor="@{headerTitle.trim() == @string/my_feed ? @color/fb_blue : @color/moreShortTextColor}"
+                            tools:text="@string/source" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--footer layout-->
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+
+                <RelativeLayout
+                        android:id="@+id/footer1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:visibility="invisible">
+
+                    <include
+                            android:id="@+id/footer_layout"
+                            layout="@layout/footer_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/colorPrimary" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/footer2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:id="@+id/read_more_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/read_more_image"
+                            android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/txt_related_topic"
+                                style="@style/layoutTextTab"
+                                android:layout_gravity="start"
+                                android:textColor="@color/tap"
+                                android:text="@{model.subTitle}"/>
+
+                        <TextView
+                                android:id="@+id/tapHere"
+                                style="@style/TextStyle.Card.TabOther"
+                                android:layout_gravity="start"
+                                android:layout_marginTop="@dimen/margin_small"
+                                android:text="@string/swipe_left_here"
+                                android:textColor="@color/contentColor" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/footer_screen_shot"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|center_horizontal"
+                        android:background="@color/colorAccent"
+                        android:visibility="invisible">
+
+                    <ImageView
+                            android:id="@+id/img_logo"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                            android:id="@+id/txt_play_store"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_toEndOf="@+id/img_logo"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="2"
+                            android:maxLines="3"
+                            android:text="@string/text_download"
+                            android:textColor="@color/tap"
+                            android:textStyle="bold" />
+
+                    <ImageView
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_toEndOf="@id/txt_play_store"
+                            android:src="@drawable/ic_google_play_store" />
+
+                </RelativeLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.8">
+
+            <include
+                    android:id="@+id/header_layout"
+                    layout="@layout/header_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:src ="@{position}"
+                    app:headerTitle ='@{headerTitle}'/>
+
+
+            <com.xzentry.shorten.utils.FloatingActionButtonExpandable
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:alpha="0.6"
+                    android:layout_below="@id/header_layout"
+                    app:fab_content="@string/image_rights_info"
+                    app:fab_duration="100"
+                    app:fab_expanded="true"
+                    app:fab_icon="@drawable/ic_image_info_24"
+                    app:fab_padding="0dp"
+                    app:fab_padding_text_icon="0dp"
+                    app:fab_text_color="@android:color/black"
+                    app:fab_text_size="@dimen/font_medium_tab" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

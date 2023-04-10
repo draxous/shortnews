@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_stg" translatable="false">ShortNews Stg</string>
+    <!--<string name="ad_id">ca-app-pub-3940256099942544/6300978111</string>-->
+    <string name="ad_id">1354225704775509_1963938440470896</string>
+    <string name="update_version_card_ad_id">1354225704775509_1963940043804069</string>
+    <string name="topic_web_view_bottom_ad_id">1354225704775509_1963940530470687</string>
+    <string name="privacy_policy_web_view_bottom_ad_id">1354225704775509_1963939223804151</string>
+</resources>

@@ -1,0 +1,306 @@
+/**[ plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin] needs to be set before [plugin: 'com.android.application']
+ ** https://github.com/OneSignal/OneSignal-Android-SDK/issues/959#issuecomment-590814581
+ **/
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+// Apply the Crashlytics Gradle plugin
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+apply plugin: 'com.google.firebase.firebase-perf'
+
+
+
+//onesignal push notifications
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.6'
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.google.com' }
+}
+
+def getProperty(String filename, String propName) {
+    def propsFile = rootProject.file(filename)
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        if (props[propName] != null) {
+            return props[propName]
+        } else {
+            print("No such property " + propName + " in file " + filename);
+        }
+    } else {
+        print(filename + " does not exist!")
+    }
+}
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.xzentry.shorten"
+        minSdkVersion  min_sdk_version as Integer
+        targetSdkVersion target_sdk_version as Integer
+        versionCode project.version_code as Integer
+        versionName project.version_name
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
+        buildToolsVersion "23.0.2"
+        manifestPlaceholders = [
+                onesignal_app_id               : 'd13a9e42-8841-4cbc-b053-571e47f05e78',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
+
+        sourceSets {
+                androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/room_schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
+        buildConfigField "String", "PLAYSTORE_URI", "\"${PLAYSTORE_URI}\""
+        buildConfigField "String", "PLAYSTORE_URL", "\"${PLAYSTORE_URL}\""
+        buildConfigField "String", "SN_INTRO_PAGE_URL", "\"${SN_INTRO_PAGE_URL}\""
+        buildConfigField "String", "SN_FACEBOOK_PAGE_URL", "\"${SN_FACEBOOK_PAGE_URL}\""
+        buildConfigField "String", "AUTH_KEY", "\"${AUTH_KEY}\""
+    }
+
+    signingConfigs {
+
+        release {
+            // create keystore.properties file in app level with correct keys before release
+            def keystorePropertiesFile = file('keystore.properties')
+            def keystoreProperties = new Properties()
+            if (keystorePropertiesFile.exists()) keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+            def keyStoreFile = file('/var/lib/jenkins/keystores/shortnews_keystore.jks')
+            if (!keyStoreFile.exists()) keyStoreFile = file('key/shortnews_keystore.jks')
+
+            storeFile keyStoreFile
+            storePassword keystoreProperties.storePw ?: System.getenv('RMS_STORE_PASS')
+            keyAlias keystoreProperties.keyAlias ?: System.getenv('RMS_ALIAS')
+            keyPassword  keystoreProperties.keyPw ?: System.getenv('RMS_ALIAS_PASS')
+        }
+
+        debug {
+            storeFile file('key/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+
+    buildTypes {
+        release {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            minifyEnabled true
+            signingConfig signingConfigs.release
+
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            shrinkResources true
+            manifestPlaceholders = [ appLabel: "@string/app_name" ]
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue("bool", "crashlytics_collection_enabled", "${CRASHLYTICS_ENABLED_RELEASE}")
+            resValue("bool", "firebase_analytics_deactivated", "${ANAYLYTICS_DISABLED_RELEASE}")
+            buildConfigField "Boolean", "IS_CRASHLYTICS_ENABLED", "${CRASHLYTICS_ENABLED_RELEASE}"
+            buildConfigField "String", "BASE_API_URL", "\"${BASE_API_URL}\""
+            buildConfigField "String", "FIREBASE_REMOTE_KEY", "\"${FIREBASE_REMOTE_KEY_PROD}\""
+            buildConfigField "String", "BASE_IMAGE_URL", "\"${BASE_IMAGE_URL}\""
+            buildConfigField "Boolean", "IS_STAGING", "false"
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            manifestPlaceholders = [ appLabel: "@string/app_name_stg" ]
+            firebaseCrashlytics {
+                // disable crash report, speed up build by disabling mapping file uploading.
+                // in release build mappingFileUploadEnabled defaults to true if minifyEnabled is true.
+                mappingFileUploadEnabled false
+            }
+            resValue("bool", "crashlytics_collection_enabled", "${CRASHLYTICS_ENABLED_DEBUG}")
+            resValue("bool", "firebase_analytics_deactivated", "${ANAYLYTICS_DISABLED_DEBUG}")
+            buildConfigField "Boolean", "IS_CRASHLYTICS_ENABLED", "${CRASHLYTICS_ENABLED_DEBUG}"
+            buildConfigField "String", "FIREBASE_REMOTE_KEY", "\"${FIREBASE_REMOTE_KEY_STG}\""
+            buildConfigField "String", "BASE_IMAGE_URL", "\"${BASE_IMAGE_URL}\""
+            buildConfigField "String", "BASE_API_URL", "\"${BASE_API_URL_STG}\""
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+        }
+
+        stg {
+            initWith debug
+            applicationIdSuffix ".stg"
+            buildConfigField "Boolean", "IS_STAGING", "true"
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.13'
+    //mockito
+    testImplementation 'org.mockito:mockito-core:3.5.10'
+    testImplementation 'org.mockito:mockito-inline:3.5.10'
+
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+
+    /* Android Support Library: RecyclerView, CardView  */
+
+    implementation "com.google.android.material:material:1.3.0-alpha03"
+
+    /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.6.0'
+
+    /* RxAndroid  */
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
+    /* Android Architecture Component - LiveData & ViewModel  */
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    /* Android Architecture Component - Room Persistance Lib  */
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+
+    /* Dagger2 - We are going to use dagger.android which includes
+     * support for Activity and fragment injection so we need to include
+     * the following dependencies */
+    implementation 'com.google.dagger:dagger-android:2.17'
+    implementation 'com.google.dagger:dagger-android-support:2.17'
+    kapt 'com.google.dagger:dagger-android-processor:2.17'
+
+    /* Dagger2 - default dependency */
+    kapt 'com.google.dagger:dagger-compiler:2.17'
+
+    /* Add Kotlin support */
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10'
+
+    // font
+    implementation "io.github.inflationx:calligraphy3:$rootProject.calligraphyVersion"
+    implementation 'io.github.inflationx:viewpump:2.0.3'
+
+    //feedback
+    implementation 'org.rm3l:maoni:8.1.0@aar'
+
+    //onesignal push notification
+    implementation 'com.onesignal:OneSignal:3.12.6'
+
+    //google ads
+    implementation 'com.google.android.gms:play-services-ads-lite:19.5.0'
+
+
+    // Import the BoM for the Firebase platform
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // implementation platform('com.google.firebase:firebase-bom:26.1.0')
+
+    //firebase
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.3.0'// crashlytics
+    implementation 'com.google.firebase:firebase-analytics-ktx:18.0.0'  // analytics
+    implementation 'com.google.firebase:firebase-config-ktx:19.2.0'  // remote config
+    implementation 'com.google.firebase:firebase-perf-ktx:19.0.9'  // perf monitoring
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.1' // Dynamic Links and Analytics libraries
+    implementation 'com.google.firebase:firebase-auth-ktx:19.4.0'
+
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    // webpdecoder
+    implementation "com.zlc.glide:webpdecoder:2.0.${glide_version}"
+    //glide
+    implementation("com.github.bumptech.glide:glide:${glide_version}") {
+        transitive = true
+    }
+    kapt "com.github.bumptech.glide:compiler:${glide_version}"
+
+    //Fresco blur processor
+    implementation 'jp.wasabeef:fresco-processors:2.1.0'
+    //facebook shrimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //viewpage indicator
+    implementation 'me.relex:circleindicator:2.1.4'
+
+    //notification badge for brands
+    implementation "me.leolin:ShortcutBadger:1.1.22"
+
+    //fb
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
+    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'com.facebook.android:audience-network-sdk:6.6.0'
+
+    // https://github.com/PierfrancescoSoffritti/android-youtube-player
+    //youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
+    //progress spinner
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+    //smart textView
+    implementation 'com.priyankvex:smarttextview:1.0.1'
+    // ImageView that allows zooming
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+}
+

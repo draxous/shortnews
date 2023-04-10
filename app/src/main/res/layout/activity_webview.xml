@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="viewModel"
+                type="com.xzentry.shorten.ui.home.HomeViewModel" />
+    </data>
+
+    <com.xzentry.shorten.utils.SwipePanel
+            android:id="@+id/swipePanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mediumGray"
+            app:isLeftCenter="false"
+            app:leftDrawable="@drawable/ic_back_white"
+            app:leftEdgeSize="100dp"
+            app:leftSwipeColor="@color/colorAccent"
+            tools:context=".LayoutSwipePanelActivity">
+
+        <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/progress_bar_height">
+
+                    <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/progress_bar_height"
+                            android:progressDrawable="@drawable/bg_progress_bar_webview" />
+
+                    <TextView
+                            android:id="@+id/url"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/progress_bar_height"
+                            android:drawablePadding="@dimen/padding_small"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_xsmall"
+                            app:drawableStartCompat="@drawable/ic_arrow_back" />
+                </FrameLayout>
+
+                <WebView
+                        android:id="@+id/web_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/mainProgress"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    app:mpb_indeterminateTint="@color/red_alpha"
+                    app:mpb_progressStyle="circular" />
+
+            <LinearLayout
+                    android:id="@+id/adView"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white" />
+
+        </FrameLayout>
+    </com.xzentry.shorten.utils.SwipePanel>
+</layout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="viewModel"
+                type="com.xzentry.shorten.ui.selectednews.SelectedNewsViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.xzentry.shorten.utils.SwipePanel xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/swipePanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mediumGray"
+                app:isLeftCenter="false"
+                app:leftDrawable="@drawable/ic_back_white"
+                app:leftEdgeSize="100dp"
+                app:leftSwipeColor="@color/colorAccent"
+                tools:context=".LayoutSwipePanelActivity">
+            <!-- SwipeBackLayout must contains only one direct child -->
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+            </androidx.viewpager.widget.ViewPager>
+
+        </com.xzentry.shorten.utils.SwipePanel>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

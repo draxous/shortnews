@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FloatingActionButtonExpandable">
+        <attr name="fab_content" format="string" />
+        <attr name="fab_icon" format="reference" />
+        <attr name="fab_text_color" format="color" />
+        <attr name="fab_bg_color" format="color" />
+        <attr name="fab_padding_text_icon" format="dimension" />
+        <attr name="fab_duration" format="integer" />
+        <attr name="fab_text_size" format="dimension" />
+        <attr name="fab_expanded" format="boolean" />
+        <attr name="fab_padding" format="dimension" />
+        <attr name="fab_typeface" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SwipePanel">
+        <attr name="leftSwipeColor" format="color" />
+        <attr name="topSwipeColor" format="color" />
+        <attr name="rightSwipeColor" format="color" />
+        <attr name="bottomSwipeColor" format="color" />
+        <attr name="leftEdgeSize" format="dimension" />
+        <attr name="topEdgeSize" format="dimension" />
+        <attr name="rightEdgeSize" format="dimension" />
+        <attr name="bottomEdgeSize" format="dimension" />
+        <attr name="leftDrawable" format="reference" />
+        <attr name="topDrawable" format="reference" />
+        <attr name="rightDrawable" format="reference" />
+        <attr name="bottomDrawable" format="reference" />
+        <attr name="isLeftCenter" format="boolean" />
+        <attr name="isTopCenter" format="boolean" />
+        <attr name="isRightCenter" format="boolean" />
+        <attr name="isBottomCenter" format="boolean" />
+        <attr name="isLeftEnabled" format="boolean" />
+        <attr name="isTopEnabled" format="boolean" />
+        <attr name="isRightEnabled" format="boolean" />
+        <attr name="isBottomEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="NetworkImageView">
+        <attr name="url" format="string" />
+        <attr name="animate" format="boolean" />
+        <attr name="fallbackImage" format="reference" />
+        <attr name="errorImage" format="reference" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="cornerRadiusTopLeft" format="dimension" />
+        <attr name="cornerRadiusTopRight" format="dimension" />
+        <attr name="cornerRadiusBottomLeft" format="dimension" />
+        <attr name="cornerRadiusBottomRight" format="dimension" />
+        <attr name="square" format="boolean" />
+    </declare-styleable>
+</resources>

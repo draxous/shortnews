@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="viewModel"
+                type="com.xzentry.shorten.ui.home.HomeViewModel" />
+    </data>
+
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorCardBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:elevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/colorCardBackground">
+
+                <FrameLayout
+                        android:id="@+id/header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/padding_large"
+                        android:paddingBottom="@dimen/padding_large"
+                        app:layout_scrollFlags="scroll|enterAlways|snap">
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/discover"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:padding="@dimen/padding_large"
+                            android:text="@string/discover"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_xlarge" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/settings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:contentDescription="@string/menu"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="@dimen/padding_large"
+                            android:src="@drawable/ic_settings_red" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/account"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:contentDescription="@string/menu"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:padding="@dimen/padding_large"
+                            android:src="@drawable/ic_account" />
+
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_xlarge"
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:background="@drawable/round_border_gray"
+                        android:hint="@string/search_news"
+                        android:padding="15dp"
+                        android:textColorHint="@color/contentColor" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/new_update"
+                    style="@style/TextStyle.Card.Content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_xlarge"
+                    android:text="@string/new_update"
+                    android:padding="@dimen/padding_large"
+                    android:background="@drawable/round_border_yellow"
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:textColor="@color/colorCardBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/header_topics"
+                    style="@style/TextStyle.Card.Content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_xlarge"
+                    android:text="@string/topics"
+                    android:textSize="@dimen/font_xlarge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/new_update" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/header_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:text="@string/short_underline"
+                    android:textColor="@color/red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/header_topics" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rec_category_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_xxxxxxlarge"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/header_underline">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2D2D2D</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">@color/red</color>
+
+    <color name="colorCardBackground">#2D2D2D</color>
+
+    <color name="red">#DF0F49</color>
+    <color name="red_alpha">#BEDF0F49</color>
+    <color name="yellow_light">#ECD7A3</color>
+
+
+    <color name="light_gray">#BEBEBE</color>
+    <color name="mediumGray">#CCD1D9</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black_effective">#2a2a2a</color>
+    <color name="subHeadingColor">#E0E0E1</color>
+    <color name="contentColor">#C5C6CA</color>
+    <color name="moreShortTextColor">#6B6C71</color>
+    <color name="tap">#D9D9D9</color>
+    <color name="fb_blue">#3B5998</color>
+    <color name="transparent_gray">#5E3D3E3E</color>
+    <color name="positive_green">#3B986D</color>
+    <color name="flag_red">#8D153A</color>
+    <color name="flag_yellow">#FFBE29</color>
+</resources>

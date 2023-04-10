@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <com.xzentry.shorten.utils.SwipePanel
+            android:id="@+id/swipePanel"
+            tools:context=".LayoutSwipePanelActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mediumGray"
+            app:isLeftCenter="false"
+            app:leftDrawable="@drawable/ic_back_white"
+            app:leftEdgeSize="100dp"
+            app:leftSwipeColor="@color/colorAccent">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:background="@color/black_effective"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
+
+            <com.xzentry.shorten.ui.view.ZoomableImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    app:animate="true"
+                    app:errorImage="@drawable/image_error"
+                    app:fallbackImage="@drawable/image_unavailable" />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white">
+
+                <TextView
+                        android:id="@id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:paddingStart="@dimen/padding_large"
+                        android:paddingTop="@dimen/padding_large"
+                        android:paddingEnd="@dimen/padding_large"
+                        android:paddingBottom="@dimen/padding_large"
+                        android:src="@drawable/ic_share"
+                        android:textColor="@color/black_effective" />
+                <!--  <FrameLayout
+                          android:id="@+id/options"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="bottom"
+                          android:animateLayoutChanges="false"
+                          android:background="@color/white">
+
+
+                      <ImageButton
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_gravity="end"
+                              android:onClick="shareImage"
+                              android:paddingStart="@dimen/padding_large"
+                              android:paddingTop="@dimen/padding_large"
+                              android:paddingEnd="@dimen/padding_large"
+                              android:paddingBottom="@dimen/padding_large"
+                              android:src="@drawable/ic_share" />
+                  </FrameLayout>-->
+            </RelativeLayout>
+        </FrameLayout>
+    </com.xzentry.shorten.utils.SwipePanel>
+</layout>
